@@ -10,9 +10,12 @@
 #import "LFPicker.h"
 #import "LFArea.h"
 #import "LFCityModel.h"
+
 typedef NS_ENUM(NSInteger, LFInputType) {
      LFInputTypeDefault,
      LFInputTypeTextFeild,
+     LFInputTypePhoneTextFeild,
+    LFInputTypeCardTextFeild,
      LFInputTypeDefaultPicker,
      LFInputTypeAreaPicker,
 };

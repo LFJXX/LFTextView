@@ -9,7 +9,7 @@
 #import "LFTextView.h"
 
 #define LFTitleLableMaxWidth   80 //titlelable的宽度
-@interface LFTextView ()<UIPickerViewDelegate,UIPickerViewDataSource>
+@interface LFTextView ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
 @property (nonatomic,weak) UIView *lineView;
 
 
@@ -73,6 +73,12 @@
     
         [self initPicker];
         [self initData];
+    }else if(self.inputType == LFInputTypePhoneTextFeild){
+        
+        self.textFeild.delegate = self;
+    }else if(self.inputType == LFInputTypeCardTextFeild){
+        
+        self.textFeild.delegate = self;
     }else{
     
     }
@@ -347,5 +353,38 @@
 
     }
   
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+
+    return [self validateString:string textField:textField CharactersInRange:range];
+}
+
+
+- (BOOL)validateString:(NSString*)string textField:(UITextField *)textField CharactersInRange:(NSRange)range
+{
+    NSUInteger lengthOfString = string.length;
+    for (NSInteger loopIndex = 0; loopIndex < lengthOfString; loopIndex++) {//只允许数字输入
+        unichar character = [string characterAtIndex:loopIndex];
+        if (self.inputType == LFInputTypePhoneTextFeild) {
+            
+            if (character < 48) return NO; // 48 unichar for 0
+            if (character > 57) return NO; // 57 unichar for 9
+            
+            NSUInteger proposedNewLength = textField.text.length - range.length + string.length;
+            if (proposedNewLength > 11) return NO;//限制长度
+        }else if(self.inputType == LFInputTypeCardTextFeild){
+            
+            NSLog(@"-----%hu",character);
+            if (character < 48) return NO;
+            if (character > 57 && character != 88 && character != 120) return NO; // x X unichar for 120  88
+            NSUInteger proposedNewLength = textField.text.length - range.length + string.length;
+            if (proposedNewLength > 18) return NO;//限制长度
+        }
+       
+        
+    }
+    
+    return YES;
 }
 @end
