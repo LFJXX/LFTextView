@@ -34,7 +34,7 @@
     
     LFTextView *titleView1 = [[LFTextView alloc] initWithFrame:CGRectMake(0, 150, self.view.bounds.size.width, 40)];
     titleView1.titleLable.text = @"身份证号:";
-    titleView1.textFeild.placeholder = @"联系人姓名";
+    titleView1.textFeild.placeholder = @"联系人身份证号";
     titleView1.inputType = LFInputTypeCardTextFeild;
     titleView1.required = YES;
     self.titleView = titleView1;

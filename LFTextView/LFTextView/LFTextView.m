@@ -33,7 +33,7 @@
     UITextField *textView = [[UITextField alloc] init];
     textView.textColor = [UIColor blackColor];
     textView.font = [UIFont systemFontOfSize:15];
-    textView.textAlignment = NSTextAlignmentRight;
+    textView.textAlignment = NSTextAlignmentCenter;
     self.textFeild = textView;
     [self addSubview:textView];
     
@@ -44,7 +44,7 @@
     titleLable.textAlignment = NSTextAlignmentLeft;
     titleLable.font = [UIFont systemFontOfSize:14];
     self.titleLable = titleLable;
-    titleLable.backgroundColor = [UIColor yellowColor];
+//    titleLable.backgroundColor = [UIColor yellowColor];
     [self addSubview:titleLable];
 
     UIImageView *tipView = [[UIImageView alloc] init];
