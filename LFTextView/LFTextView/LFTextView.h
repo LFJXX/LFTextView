@@ -35,4 +35,6 @@ typedef NS_ENUM(NSInteger, LFInputType) {
 @property (nonatomic,assign) LFInputType inputType;
 @property (nonatomic,strong) LFPicker *picker;
 @property (nonatomic,strong) LFArea *area;
+
++ (instancetype)textViewWithInputType:(LFInputType )type frame:(CGRect)frame required:(BOOL)isRequired;
 @end

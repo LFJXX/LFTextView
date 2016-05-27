@@ -28,6 +28,13 @@
     return self;
 }
 
++ (instancetype)textViewWithInputType:(LFInputType)type frame:(CGRect)frame required:(BOOL)isRequired{
+
+    LFTextView *textV = [[LFTextView alloc] initWithFrame:frame];
+    textV.inputType = type;
+    textV.required = isRequired;
+    return textV;
+}
 - (void)setUpUI{
 
     UITextField *textView = [[UITextField alloc] init];

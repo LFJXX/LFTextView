@@ -72,6 +72,12 @@
     self.titleView = titleView4;
     [self.view addSubview:titleView4];
     
+    LFTextView *titleView5 = [LFTextView textViewWithInputType:LFInputTypeCardTextFeild  frame:CGRectMake(0, 350, self.view.bounds.size.width, 40) required:NO];
+    titleView5.titleLable.text = @"身份证号码:";
+    titleView5.textFeild.placeholder = @"请输入身份证号码";
+    self.titleView = titleView5;
+    [self.view addSubview:titleView5];
+    
 }
 
 
