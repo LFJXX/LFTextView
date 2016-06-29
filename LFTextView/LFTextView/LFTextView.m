@@ -10,7 +10,7 @@
 
 #define LFTitleLableMaxWidth   80 //titlelable的宽度
 @interface LFTextView ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
-@property (nonatomic,weak) UIView *lineView;
+
 
 
 @end
@@ -64,6 +64,12 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self addSubview:lineView];
     
+    UIImageView *arrowView = [[UIImageView alloc] init];
+    arrowView.image = [UIImage imageNamed:@"pickArrow"];
+    self.arrowView = arrowView;
+    self.arrowView.hidden = YES;
+    [self addSubview:arrowView];
+    
 
     
 }
@@ -75,19 +81,28 @@
  
     if (self.inputType == LFInputTypeDefaultPicker ) {
         [self initPicker];
-
+        self.arrowView.hidden = NO;
+        
     }else if(self.inputType == LFInputTypeAreaPicker){
-    
+        
         [self initPicker];
         [self initData];
+        self.arrowView.hidden = NO;
     }else if(self.inputType == LFInputTypePhoneTextFeild){
         
         self.textFeild.delegate = self;
     }else if(self.inputType == LFInputTypeCardTextFeild){
         
         self.textFeild.delegate = self;
+    }else if(self.inputType == LFInputTypeDatePicker){
+        
+        [self initDatePicker];
+        self.arrowView.hidden = NO;
+        
+    }else if (self.inputType == LFInputTypeBankCardTextFeild){
+        self.textFeild.delegate = self;
     }else{
-    
+        
     }
 }
 
@@ -110,6 +125,25 @@
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
 }
+
+- (void)initDatePicker{
+    UIDatePicker *pickerView = [[UIDatePicker alloc] init];
+    self.datePickerView = pickerView;
+    self.datePickerView.backgroundColor = [UIColor whiteColor];
+    self.textFeild.inputView = pickerView;
+    self.datePickerView.datePickerMode = UIDatePickerModeDate;
+    [pickerView setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
+    [pickerView setTimeZone:[NSTimeZone localTimeZone]];
+    [pickerView setDate:[NSDate date] animated:YES];
+    [pickerView addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [pickerView setMaximumDate:[NSDate date]];
+    
+    
+    
+    
+}
+
+
 #pragma Mark 初始化地区选择器
 - (void)initData{
     provinces = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"citya.plist" ofType:nil]];
@@ -149,7 +183,7 @@
 
 - (UIToolbar *)inputAccessoryView
 {
-    if (self.inputType == LFInputTypeDefaultPicker || self.inputType == LFInputTypeAreaPicker) {
+    if (self.inputType == LFInputTypeDefaultPicker || self.inputType == LFInputTypeAreaPicker || self.inputType == LFInputTypeDatePicker){
         
         if(!_inputAccessoryView)
         {
@@ -184,6 +218,11 @@
             self.picker = picker;
             self.textFeild.text = picker.text;
             
+            if ( self.delegate && [self.delegate respondsToSelector:@selector(ptPassPicker:With:)]) {
+                [self.delegate ptPassPicker:self.picker With:self];
+            }
+
+            
             [self.textFeild resignFirstResponder];
             [self.pickerView selectRow:0 inComponent:0 animated:YES];
         
@@ -194,6 +233,11 @@
         {
         
             self.textFeild.text = [NSString stringWithFormat:@"%@%@%@",self.area.state,self.area.city,self.area.country];
+            
+            if ( self.delegate && [self.delegate respondsToSelector:@selector(ptPassArea:With:)]) {
+                [self.delegate ptPassArea:self.area With:self];
+            }
+            
             [self.textFeild resignFirstResponder];
             [self.pickerView selectRow:0 inComponent:0 animated:YES];
             [self pickerView:self.pickerView didSelectRow:0 inComponent:0];
@@ -201,6 +245,19 @@
           
             
         }
+            break;
+            case LFInputTypeDatePicker:
+        {
+            NSDate *date = self.datePickerView.date;
+            NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+            formater.dateFormat = @"yyyy-MM-dd";
+            self.textFeild.text = [formater stringFromDate:date];
+  
+            [self endEditing:NO];
+            
+        }
+            break;
+
         default:
             break;
     }
@@ -229,10 +286,31 @@
             
             
         }
+            break;
+        case LFInputTypeDatePicker:
+        {
+            
+            [self.textFeild resignFirstResponder];
+            self.textFeild.text = @"";
+            
+            
+            
+        }
+            break;
         default:
             break;
     }
 
+    
+}
+
+- (void)datePickerValueChanged:(UIDatePicker *)datepicker{
+    
+    NSDate *date = datepicker.date;
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    formater.dateFormat = @"yyyy/MM/dd";
+    self.textFeild.text = [formater stringFromDate:date];
+    
     
 }
 
@@ -362,10 +440,43 @@
   
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
 
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([self.delegate respondsToSelector:@selector(ptTextField:shouldChangeCharactersInRange:replacementString:)]) {
+        [self.delegate ptTextField:textField shouldChangeCharactersInRange:range replacementString:string];
+    }
     return [self validateString:string textField:textField CharactersInRange:range];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [self.textFeild resignFirstResponder];
+    if ([self.delegate respondsToSelector:@selector(ptTextFieldShouldReturn:)]) {
+        [self.delegate ptTextFieldShouldReturn:textField];
+    }
+    
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    [self.textFeild resignFirstResponder];
+    
+    if ([self.delegate respondsToSelector:@selector(ptTextFieldDidEndEditing:)]) {
+        [self.delegate ptTextFieldDidEndEditing:textField];
+    }
+    
+    
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+
+    if ([self.delegate respondsToSelector:@selector(ptTextFieldDidBeginEditing:)]) {
+        [self.delegate ptTextFieldDidBeginEditing:textField];
+    }
+}
+
+
 
 
 - (BOOL)validateString:(NSString*)string textField:(UITextField *)textField CharactersInRange:(NSRange)range
@@ -387,6 +498,38 @@
             if (character > 57 && character != 88 && character != 120) return NO; // x X unichar for 120  88
             NSUInteger proposedNewLength = textField.text.length - range.length + string.length;
             if (proposedNewLength > 18) return NO;//限制长度
+        }else if (self.inputType == LFInputTypeBankCardTextFeild){
+            
+            NSString *text = textField.text;
+            
+            NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789\b"];
+            string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+            if ([string rangeOfCharacterFromSet:[ characterSet invertedSet]].location != NSNotFound) {
+                return NO;
+            }
+            
+            text = [text stringByReplacingCharactersInRange:range withString:string];
+            text = [text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            
+            NSString *newString = @"";
+            while (text.length > 0) {
+                NSString *subString = [text substringToIndex:MIN(text.length, 4)];
+                newString = [newString stringByAppendingString:subString];
+                if (subString.length == 4) {
+                    newString = [newString stringByAppendingString:@" "];
+                }
+                text = [text substringFromIndex:MIN(text.length, 4)];
+            }
+            
+            newString = [newString stringByTrimmingCharactersInSet:[characterSet invertedSet]];
+            
+            if (newString.length >= 24) {
+                return NO;
+            }
+            
+            [textField setText:newString];
+            return NO;
+            
         }
        
         

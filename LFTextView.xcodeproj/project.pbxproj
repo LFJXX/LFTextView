@@ -463,11 +463,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: tao xu (J5WTB226DZ)";
 				INFOPLIST_FILE = LFTextView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xinyongbao.LFTextView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "954cd6c4-f446-4b21-960a-8583ac705eea";
+				PROVISIONING_PROFILE = "37b0f1e3-82d5-49d5-8888-4398f10c5f4b";
 			};
 			name = Debug;
 		};
@@ -479,7 +480,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xinyongbao.LFTextView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "954cd6c4-f446-4b21-960a-8583ac705eea";
+				PROVISIONING_PROFILE = "37b0f1e3-82d5-49d5-8888-4398f10c5f4b";
 			};
 			name = Release;
 		};
