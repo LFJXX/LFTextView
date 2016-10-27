@@ -21,6 +21,7 @@
 		10AB79801CF6E74D0027309C /* citya.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10AB79781CF6E74D0027309C /* citya.plist */; };
 		10AB79811CF6E74D0027309C /* tip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10AB79791CF6E74D0027309C /* tip@2x.png */; };
 		10AB79851CF6E7810027309C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10AB79841CF6E7810027309C /* ViewController.m */; };
+		10D4FE9F1DC19150006990FA /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10D4FE9E1DC19150006990FA /* next@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		10AB79791CF6E74D0027309C /* tip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip@2x.png"; sourceTree = "<group>"; };
 		10AB79831CF6E7810027309C /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = LFTextView/ViewController.h; sourceTree = "<group>"; };
 		10AB79841CF6E7810027309C /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = LFTextView/ViewController.m; sourceTree = "<group>"; };
+		10D4FE9E1DC19150006990FA /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next@2x.png"; path = "../../../../../../../../../Desktop/LoveCardLoan/LoveCardLoan/Class/Other/Resource/profile/next@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 		10AB79771CF6E74D0027309C /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				10D4FE9E1DC19150006990FA /* next@2x.png */,
 				10AB79781CF6E74D0027309C /* citya.plist */,
 				10AB79791CF6E74D0027309C /* tip@2x.png */,
 			);
@@ -290,6 +293,7 @@
 				107BDE4C1CE9CD0000C67D48 /* Main.storyboard in Resources */,
 				10AB79811CF6E74D0027309C /* tip@2x.png in Resources */,
 				10AB79801CF6E74D0027309C /* citya.plist in Resources */,
+				10D4FE9F1DC19150006990FA /* next@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

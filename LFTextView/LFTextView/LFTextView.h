@@ -12,14 +12,13 @@
 #import "LFCityModel.h"
 @class LFTextView;
 typedef NS_ENUM(NSInteger, LFInputType) {
-    LFInputTypeDefault,
-    LFInputTypeTextFeild,
-    LFInputTypePhoneTextFeild,
-    LFInputTypeBankCardTextFeild,
-    LFInputTypeCardTextFeild,
-    LFInputTypeDefaultPicker,
-    LFInputTypeDatePicker,
-    LFInputTypeAreaPicker
+    LFInputTypeTextFeild = 0, //普通文字输入
+    LFInputTypePhoneTextFeild = 1, // 手机号输入
+    LFInputTypeBankCardTextFeild = 2, // 银行卡输入
+    LFInputTypeCardTextFeild = 3, // 身份证号输入
+    LFInputTypeDefaultPicker = 4, // 普通选择框
+    LFInputTypeDatePicker = 5, // 日期选择期
+    LFInputTypeAreaPicker = 6 // 区域选择器
 };
 
 @protocol LFTextViewDelegate <NSObject>
@@ -30,8 +29,8 @@ typedef NS_ENUM(NSInteger, LFInputType) {
 - (BOOL)ptTextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 - (void)ptTextFieldDidEndEditing:(UITextField *)textField;
 - (void)ptTextFieldDidBeginEditing:(UITextField *)textField;
-- (void)ptPassArea:(id)area With:(LFTextView*)textView;
-- (void)ptPassPicker:(id)Picker With:(LFTextView*)textView;
+- (void)ptPassArea:(LFArea *)area With:(LFTextView*)textView;
+- (void)ptPassPicker:(LFPicker *)Picker With:(LFTextView*)textView;
 @end
 @interface LFTextView : UIView{
 @private

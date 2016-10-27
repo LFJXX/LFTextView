@@ -9,6 +9,7 @@
 #import "LFTextView.h"
 
 #define LFTitleLableMaxWidth   80 //titlelable的宽度
+#define Line_Height 0.5f
 @interface LFTextView ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
 
 
@@ -40,7 +41,7 @@
     UITextField *textView = [[UITextField alloc] init];
     textView.textColor = [UIColor blackColor];
     textView.font = [UIFont systemFontOfSize:15];
-    textView.textAlignment = NSTextAlignmentCenter;
+    textView.textAlignment = NSTextAlignmentLeft;
     self.textFeild = textView;
     [self addSubview:textView];
     
@@ -65,7 +66,7 @@
     [self addSubview:lineView];
     
     UIImageView *arrowView = [[UIImageView alloc] init];
-    arrowView.image = [UIImage imageNamed:@"pickArrow"];
+    arrowView.image = [UIImage imageNamed:@"next"];
     self.arrowView = arrowView;
     self.arrowView.hidden = YES;
     [self addSubview:arrowView];
@@ -172,11 +173,15 @@
     CGFloat tipViewWH = 5;
     CGFloat tipviewY = (H - tipViewWH)*0.5;
     CGFloat marginX = 10;
+    UIImage *image = [UIImage imageNamed:@"next"];
+    CGFloat arrowH = image.size.height;
+    CGFloat arrowW = image.size.width;
     self.tipView.frame = CGRectMake(marginX*0.5, tipviewY, tipViewWH, tipViewWH);
     
     self.titleLable.frame = CGRectMake(CGRectGetMaxX(self.tipView.frame)+marginX*0.5, 0, LFTitleLableMaxWidth, H);
-    self.textFeild.frame = CGRectMake(CGRectGetMaxX(self.titleLable.frame)+marginX, 0, W-marginX-CGRectGetMaxX(self.titleLable.frame)- marginX, H);
-    self.lineView.frame = CGRectMake(marginX*1.5, H-1, W - 2.5*marginX, 1);
+    self.textFeild.frame = CGRectMake(CGRectGetMaxX(self.titleLable.frame), 0, W-marginX-CGRectGetMaxX(self.titleLable.frame)- marginX-arrowW-5, H);
+    self.arrowView.frame = CGRectMake(CGRectGetMaxX(self.textFeild.frame)+5, (H-arrowH)/2, arrowW, arrowH);
+    self.lineView.frame = CGRectMake(marginX*1.5, H-Line_Height, W - 2.5*marginX, Line_Height);
 }
 
 #pragma mark UIPickerViewDelegate,UIPickerViewDataSource
@@ -269,7 +274,7 @@
         case LFInputTypeDefaultPicker:
         {
             [self.textFeild resignFirstResponder];
-            self.textFeild.text = @"";
+//            self.textFeild.text = @"";
             [self.pickerView selectRow:0 inComponent:0 animated:YES];
             
         }
@@ -279,7 +284,7 @@
         {
             
             [self.textFeild resignFirstResponder];
-            self.textFeild.text = @"";
+//            self.textFeild.text = @"";
             [self.pickerView selectRow:0 inComponent:0 animated:YES];
             [self pickerView:self.pickerView didSelectRow:0 inComponent:0];
             [self pickerView:self.pickerView didSelectRow:0 inComponent:1];
@@ -291,7 +296,7 @@
         {
             
             [self.textFeild resignFirstResponder];
-            self.textFeild.text = @"";
+//            self.textFeild.text = @"";
             
             
             

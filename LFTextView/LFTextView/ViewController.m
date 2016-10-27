@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "LFTextView.h"
-@interface ViewController ()
+@interface ViewController ()<LFTextViewDelegate>
 @property (nonatomic,weak) LFTextView *titleView;
 @end
 
@@ -16,17 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
-//    NSMutableArray *array1 = [NSMutableArray arrayWithCapacity:0];
-//    for (int i = 0; i<10; i++) {
-//        LFPicker *picker = [[LFPicker alloc] init];
-//        picker.value = [NSString stringWithFormat:@"%d",i];
-//        picker.text = [NSString stringWithFormat:@"测试---%d",i];
-//        [array1 addObject:picker];
-//    }
-//    titleView1.dataSource = array1;
-
-    
     LFTextView *titleView2 = [[LFTextView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 40)];
     titleView2.titleLable.text = @"联系人姓名:";
     titleView2.textFeild.placeholder = @"请输入联系人姓名";
@@ -46,6 +35,7 @@
     LFTextView *titleView4 = [[LFTextView alloc] initWithFrame:CGRectMake(0, 150, self.view.bounds.size.width, 40)];
     titleView4.titleLable.text = @"家庭住址:";
     titleView4.textFeild.placeholder = @"请选择联系人家庭住址";
+    titleView4.delegate = self;
     titleView4.inputType = LFInputTypeAreaPicker;
     self.titleView = titleView4;
     [self.view addSubview:titleView4];
@@ -65,6 +55,7 @@
     LFTextView *titleView = [[LFTextView alloc] initWithFrame:CGRectMake(0, 300, self.view.bounds.size.width, 40)];
     titleView.titleLable.text = @"测试一:";
     titleView.textFeild.placeholder = @"测试结果";
+    titleView.delegate = self;
     titleView.inputType = LFInputTypeDefaultPicker;
     self.titleView = titleView;
     [self.view addSubview:titleView];
@@ -88,6 +79,15 @@
     
 }
 
+- (void)ptPassArea:(LFArea *)area With:(LFTextView *)textView{
+
+    NSLog(@"区域%@--%@--%@",area.state,area.city,area.country);
+}
+
+- (void)ptPassPicker:(LFPicker *)Picker With:(LFTextView *)textView{
+
+    NSLog(@"普通选择%@--%@",Picker.value,Picker.text);
+}
 
 
 - (void)didReceiveMemoryWarning {
