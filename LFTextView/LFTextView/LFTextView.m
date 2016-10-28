@@ -89,18 +89,25 @@
         [self initPicker];
         [self initData];
         self.arrowView.hidden = NO;
+        
     }else if(self.inputType == LFInputTypePhoneTextFeild){
         
+        self.textFeild.keyboardType = UIKeyboardTypeNumberPad;
         self.textFeild.delegate = self;
+        
     }else if(self.inputType == LFInputTypeCardTextFeild){
         
+       
         self.textFeild.delegate = self;
+        
     }else if(self.inputType == LFInputTypeDatePicker){
         
         [self initDatePicker];
         self.arrowView.hidden = NO;
         
     }else if (self.inputType == LFInputTypeBankCardTextFeild){
+        
+        self.textFeild.keyboardType = UIKeyboardTypeNumberPad;
         self.textFeild.delegate = self;
     }else{
         
