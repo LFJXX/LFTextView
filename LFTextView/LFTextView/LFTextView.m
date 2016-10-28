@@ -11,8 +11,28 @@
 #define LFTitleLableMaxWidth   80 //titlelable的宽度
 #define Line_Height 0.5f
 @interface LFTextView ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
+{
+
+    NSArray *provinces;
+    NSArray	*cities;
+    NSArray	*counties;
+}
 
 
+
+
+@property(strong,nonatomic,readwrite) UIToolbar *inputAccessoryView;
+@property (nonatomic,strong) LFPicker *picker;
+@property (nonatomic,strong) LFArea *area;
+
+@property (nonatomic,weak) UILabel *titleLable;
+@property (nonatomic,weak) UIImageView *tipView;
+@property (nonatomic,weak) UIImageView *arrowView;
+@property (nonatomic,weak) UIPickerView *pickerView;
+@property (nonatomic,weak) UIDatePicker *datePickerView;
+
+/** 底部线 */
+@property (nonatomic,weak) UIView *bottomLineView;
 
 @end
 
@@ -21,13 +41,16 @@
 - (instancetype)initWithFrame:(CGRect)frame{
 
     if ([super initWithFrame:frame]) {
-        
+        self.captionColor = [UIColor lightGrayColor];
+        self.inputTextColor_normal = [UIColor darkGrayColor];
+        self.inputTextColor_disable = [UIColor lightGrayColor];
         [self setUpUI];
         [self initData];
        
     }
     return self;
 }
+
 
 + (instancetype)textViewWithInputType:(LFInputType)type frame:(CGRect)frame required:(BOOL)isRequired{
 
@@ -36,6 +59,7 @@
     textV.required = isRequired;
     return textV;
 }
+
 - (void)setUpUI{
 
     UITextField *textView = [[UITextField alloc] init];
@@ -61,7 +85,7 @@
     [self addSubview:tipView];
     
     UIView *lineView = [[UIView alloc] init];
-    self.lineView = lineView;
+    self.bottomLineView = lineView;
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self addSubview:lineView];
     
@@ -70,10 +94,10 @@
     self.arrowView = arrowView;
     self.arrowView.hidden = YES;
     [self addSubview:arrowView];
-    
 
     
 }
+
 
 
 - (void)setInputType:(LFInputType)inputType{
@@ -111,6 +135,7 @@
         self.textFeild.delegate = self;
     }else{
         
+    
     }
 }
 
@@ -124,6 +149,75 @@
         self.tipView.hidden = YES;
     }
 }
+
+- (void)setHasBottomLine:(BOOL)hasBottomLine{
+
+    _hasBottomLine = hasBottomLine;
+    self.bottomLineView.hidden = !hasBottomLine;
+}
+
+- (void)setCaption:(NSString *)caption{
+
+    _caption = caption;
+    self.titleLable.text = _caption;
+}
+- (void)setInputText:(NSString *)inputText{
+
+    _inputText = inputText;
+    self.textFeild.text = self.inputText;
+}
+
+
+- (void)setIsEnable:(BOOL)isEnable{
+    
+    _isEnable = isEnable;
+    if (isEnable == NO) {
+        self.textFeild.textColor = self.inputTextColor_disable;
+        self.textFeild.enabled = NO;
+    }else{
+        self.textFeild.textColor = self.inputTextColor_normal;
+        self.textFeild.enabled = YES;
+    }
+}
+
+- (void)setPlaceholder:(NSString *)placeholder{
+
+    _placeholder = placeholder;
+    self.textFeild.placeholder = placeholder;
+}
+
+- (void)setCaptionColor:(UIColor *)captionColor{
+
+    _captionColor = captionColor;
+    self.titleLable.textColor = captionColor;
+}
+
+- (void)setInputTextColor_normal:(UIColor *)inputTextColor_normal{
+
+    _inputTextColor_normal = inputTextColor_normal;
+    self.textFeild.textColor = inputTextColor_normal;
+}
+
+- (void)setInputTextColor_disable:(UIColor *)inputTextColor_disable{
+
+    _inputTextColor_disable = inputTextColor_disable;
+    if (!self.isEnable) {
+        self.textFeild.textColor = inputTextColor_disable;
+    }
+}
+
+- (void)setCaption_font:(UIFont *)caption_font{
+
+    _caption_font = caption_font;
+    self.titleLable.font = caption_font;
+}
+
+- (void)setInputText_font:(UIFont *)inputText_font{
+
+    _inputText_font = inputText_font;
+    self.textFeild.font = inputText_font;
+}
+
 #pragma mark 初始化选择器
 - (void)initPicker{
     UIPickerView *pickerView = [[UIPickerView alloc] init];
@@ -146,9 +240,7 @@
     [pickerView addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     [pickerView setMaximumDate:[NSDate date]];
     
-    
-    
-    
+
 }
 
 
@@ -188,7 +280,7 @@
     self.titleLable.frame = CGRectMake(CGRectGetMaxX(self.tipView.frame)+marginX*0.5, 0, LFTitleLableMaxWidth, H);
     self.textFeild.frame = CGRectMake(CGRectGetMaxX(self.titleLable.frame), 0, W-marginX-CGRectGetMaxX(self.titleLable.frame)- marginX-arrowW-5, H);
     self.arrowView.frame = CGRectMake(CGRectGetMaxX(self.textFeild.frame)+5, (H-arrowH)/2, arrowW, arrowH);
-    self.lineView.frame = CGRectMake(marginX*1.5, H-Line_Height, W - 2.5*marginX, Line_Height);
+    self.bottomLineView.frame = CGRectMake(marginX*1.5, H-Line_Height, W - 2.5*marginX, Line_Height);
 }
 
 #pragma mark UIPickerViewDelegate,UIPickerViewDataSource
